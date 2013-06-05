@@ -1,4 +1,5 @@
-;TEMPORARY ONLY
+;Included for completeness
+;Not actually used
 
 .386
 .model flat, stdcall
@@ -12,31 +13,33 @@ ExitProcess PROTO, dwExitCode:DWORD
 CreateThread PROTO, lpThreadAttributes:DWORD, dwStackSize:DWORD, lpStartAddress:DWORD, lpParameter:DWORD, dwCreationFlags:DWORD, lpThreadID:DWORD
 
 .data
-    path        byte    'C:\testfile\test.txt',0
-    threadid    dword    ?
+    path    byte    'C:\testfile\test.txt',0
 .code 
 main:
     push    ebp
-    mov     ebp, esp
-    push    0            ;file found flag
-    push    offset threadid
+    mov	    ebp, esp
+    push    0           ;file found flag
+    sub     esp, 4      ;threadid
+    mov     eax, ebp
+    sub     eax, 8
+    push    eax
     push    0
-    mov     esi, ebp
-    add     esi, 4
+    mov	    esi, ebp
+    sub	    esi, 4
     push    esi
-    lea     eax, monitort
+    lea	    eax, monitort
     push    eax
     push    0
     push    0
-    xor     eax, eax
+    xor	    eax, eax
     call    CreateThread
 loopstart:
-    inc     eax
-    mov     edi, [esi]
-    cmp     edi, 1
-    jnz     loopstart
+    inc	    eax
+    mov	    edi, [esi]
+    cmp	    edi, 1
+    jnz	    loopstart
 
-    mov     edi, eax
+    mov	    edi, eax
 
     ;open file and get handle
     push    0
@@ -49,17 +52,17 @@ loopstart:
     call    CreateFileA
 
     ;write
-    sub     esp,4
-    mov     edx, esp
-    add     edx, 4
+    sub	    esp, 4
+    mov	    edx, esp
+    add	    edx, 4
     push    0
     push    edx
     push    1
-    mov     [esi], edi
+    mov	    [esi], edi
     push    esi
     push    eax
     call    WriteFile
-    add     esp, 4
+    add	    esp, 4
 
     push    0
     call    ExitProcess
@@ -67,22 +70,23 @@ loopstart:
 
 monitort:
     push    ebp
-    mov     ebp, esp
-    mov     edi, esp
-    sub     esp, 4
+    mov	    ebp, esp
+    sub     esp, 140h
+    mov	    edi, esp
     push    esi
-    mov     esi, [ebp+8]
+    mov	    esi, [ebp+8]
 cont:
     push    edi
     push    offset path
     call    FindFirstFileA
-    cmp     eax, -1
-    jz      cont
-    mov     eax, 1
-    mov     [esi], eax
-    xor     eax, eax
-    mov     esi, [ebp-4]
-    mov     esp, ebp
-    pop     ebp
+    cmp	    eax, -1
+    jz	    cont
+    mov	    eax, 1
+    mov	    [esi], eax
+    xor	    eax, eax
+    mov	    esi, [ebp-144h]
+    add     esp, 144h
+    mov	    esp, ebp
+    pop	    ebp
     ret
 end main
