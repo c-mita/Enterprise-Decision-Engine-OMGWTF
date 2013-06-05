@@ -43,11 +43,11 @@ loopstart:
 
     ;open file and get handle
     push    0
-    push    256
+    push    80h
     push    2
     push    0
     push    7
-    push    10000000h
+    push    102h
     push    offset path
     call    CreateFileA
 
