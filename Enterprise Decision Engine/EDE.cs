@@ -19,11 +19,14 @@ namespace Enterprise_Decision_Engine
 
         static public int RNG()
         {
-            Setup.GetASM("C:\\testfile\\test.txt");
-            if (File.Exists("C:\\testfile\\test.txt")) {
-                File.Delete("C:\\testfile\\test.txt");
+            Directory.CreateDirectory("engine");
+            Setup.SetupRNG("engine\\test.txt");
+            //Setup.GetASM("C:\\testfile\\test.txt");
+            if (File.Exists("engine\\test.txt")) {
+                File.Delete("engine\\test.txt");
             }
-            ProcessStartInfo info = new ProcessStartInfo("C:\\OMGWTF\\RNG Test\\Debug\\RNG test.exe");
+            
+            ProcessStartInfo info = new ProcessStartInfo("engine\\RNG.exe");
             info.CreateNoWindow = true;
             info.UseShellExecute = false;
             info.RedirectStandardOutput = true;
@@ -31,7 +34,8 @@ namespace Enterprise_Decision_Engine
             Process proc = Process.Start(info);
             thread.Start();
             proc.WaitForExit(int.MaxValue);
-            FileStream stream = File.Open("C:\\testfile\\test.txt",FileMode.Open);
+            thread.Join();
+            FileStream stream = File.Open("engine\\test.txt",FileMode.Open);
             int n = stream.ReadByte();
             stream.Close();
             return (n & 1) ^ 1; //this was getting inverted somewhere, so I just flipped it here - Tom
@@ -40,8 +44,8 @@ namespace Enterprise_Decision_Engine
         static void GenerateFile()
         {
             System.Threading.Thread.Sleep(100);
-            FileStream file = File.Create("C:\\testfile\\test.txt");
-            file.Close();
+            File.Create("engine\\test.txt").Close();
+            /*TODO - Fix race condition!*/
         }
 
         

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
+using System.IO;
 
 namespace Enterprise_Decision_Engine
 {
@@ -9,26 +11,69 @@ namespace Enterprise_Decision_Engine
     {
         static bool IsReady()
         {
-            return System.IO.File.Exists("engine\bin\rng.exe");
+            return File.Exists("engine\\rng.exe");
         }
 
-        static bool SetupRNG(string sDataFile)
+        static public bool SetupRNG(string sDataFile)
         {
             /*I do not believe it's come to this
              *The PM _insists_ the functionality and behaviour of that ancient POS is preserved _exactly_
              *Well I'll do that. And those other idiots won't have a fucking clue how this works.
             */
-
+            Assemble(sDataFile);
 
             return true;
 
         }
 
-        static void Assemble()
+        static void Assemble(string sDataFile)
         {
+            string sDir = Directory.GetCurrentDirectory();
+            sDir = sDir.TrimEnd('\\');
 
+            StreamWriter streamASM = File.CreateText(sDir+"\\engine\\RNG.asm");
+            streamASM.Write(GetASM(sDir + "\\" + sDataFile).ToString());
+            streamASM.Close();
+
+            Process proc = new Process();
+            string sMSVSPath = MSVSPath();
+            proc.StartInfo.FileName = "cmd.exe";
+            proc.StartInfo.Arguments = "/k \""+sMSVSPath+"\\VC\\vcvarsall.bat\"";
+            /*Neither my manager nor CTO have VS on their machines. 
+             * But I think I can get gcc on them*/
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.RedirectStandardInput = true;
+            proc.StartInfo.RedirectStandardOutput = true;
+            proc.Start();
+
+            StreamWriter streamIn = proc.StandardInput;
+            string ml = "ml /c /Fo\"" + sDir + "\\engine\\RNG.obj\" \"" + sDir + "\\engine\\RNG.asm\"";
+            string link = "link /OUT:\"" + sDir + "\\engine\\RNG.exe\" /ENTRY:\"main\" \"" + sDir + "\\engine\\RNG.obj\"";
+            streamIn.WriteLine(ml);
+            streamIn.WriteLine(link);
+            streamIn.Close();
+            proc.WaitForExit();
+            proc.Close();
         }
 
+        static string MSVSPath()
+        {
+            string[] paths = { "C:\\", "C:\\Program Files (x86)", "C:\\Program Files" };
+            foreach(string sBase in paths){
+                List<string> dirs = new List<string>(Directory.EnumerateDirectories(sBase));
+                foreach(string sDir in dirs){
+                    string sDirT = sDir.TrimEnd('\\');
+                    sDirT = sDirT.Substring(sDirT.LastIndexOf('\\'));
+                    if(sDirT.Contains("Microsoft Visual Studio")){
+                        if (File.Exists(sDir+"\\VC\\vcvarsall.bat") 
+                            && File.Exists (sDir + "\\VC\\bin\\ml.exe")
+                            && File.Exists(sDir + "\\VC\\bin\\link.exe")) return sDir;
+                    }
+                }
+            }
+            return "";
+        }
+        
         public static StringBuilder GetASM(string sDataFile)
         {
             StringBuilder sbASM = new StringBuilder(2048);
@@ -43,11 +88,13 @@ namespace Enterprise_Decision_Engine
             sbASM.Append("CreateThread PROTO, lpThreadAttributes:DWORD, dwStackSize:DWORD,");
             sbASM.Append("lpStartAddress:DWORD, lpParameter:DWORD, dwCreationFlags:DWORD, lpThreadID:DWORD\r\n");
             sbASM.Append(".data\r\npath byte ");
-            sbASM.AppendLine(sDataFile);
+            sbASM.Append('\'');
+            sbASM.Append(sDataFile);
+            sbASM.AppendLine("\',0");
             sbASM.AppendLine(".code\r\nmain:");
 
-            string[] ops = { "push", "pop", "mov", "lea", "sub", "add", "xor" };
-            string[] regs = { "ebp", "esp", "eax", "edx", "edi", "esi", "" , "h" };
+            //string[] ops = { "push", "pop", "mov", "lea", "sub", "add", "xor" };
+            //string[] regs = { "ebp", "esp", "eax", "edx", "edi", "esi", "" , "h" };
             string code = "A a C a,b A 0 E b,4 C c,a E c,8 A c A 0 C f,a E f,4 A f";
             string ASM = ParseASM(code);
             sbASM.AppendLine(ASM);
@@ -83,11 +130,6 @@ namespace Enterprise_Decision_Engine
             string[] ops = { "push", "pop", "mov", "lea", "sub", "add", "xor" };
             string[] regs = { "ebp", "esp", "eax", "edx", "edi", "esi","","h" };
             for (int i = 0; i < code.Length; i++) {
-                //if (' ' == code[i]) continue;
-                //if (',' == code[i]) {
-                //    sbASMSegment.Append(",");
-                //    continue;
-                //}
                 if (0 != (code[i] & 64)
                     && (0x5b != code[i]) && (0x5d != code[i])) {
                     if (0 == (code[i] & 32)) {
