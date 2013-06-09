@@ -4,11 +4,22 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
+using System.Runtime.InteropServices;
+
+
 
 namespace Enterprise_Decision_Engine
 {
     static class EDE
     {
+        [DllImport("kernel32.dll")]
+        static extern IntPtr OpenThread(int dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
+        [DllImport("kernel32.dll")]
+        static extern uint SuspendThread(IntPtr hThread);
+        [DllImport("kernel32.dll")]
+        static extern int ResumeThread(IntPtr hThread);
+
         [STAThread]
         static void Main()
         {
@@ -30,8 +41,9 @@ namespace Enterprise_Decision_Engine
             info.CreateNoWindow = true;
             info.UseShellExecute = false;
             info.RedirectStandardOutput = true;
-            System.Threading.Thread thread = new System.Threading.Thread(GenerateFile);
-            Process proc = Process.Start(info);
+            Process proc = null;
+            System.Threading.Thread thread = new Thread(() => GenerateFile(proc),0);
+            proc = Process.Start(info);
             thread.Start();
             proc.WaitForExit(int.MaxValue);
             thread.Join();
@@ -41,11 +53,23 @@ namespace Enterprise_Decision_Engine
             return (n & 1) ^ 1; //this was getting inverted somewhere, so I just flipped it here - Tom
         }
 
-        static void GenerateFile()
+        static void GenerateFile(Process proc)
         {
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
+            IntPtr[] hThreads = new IntPtr[proc.Threads.Count];
+            int i = 0;
+            foreach (ProcessThread thread in proc.Threads) {
+                IntPtr hThread = OpenThread(0x2, false, (uint)thread.Id);
+                hThreads[i++] = hThread;
+                if (IntPtr.Zero == hThread) continue;
+                SuspendThread(hThread);
+            }
             File.Create("engine\\test.txt").Close();
             /*TODO - Fix race condition!*/
+            /*race condition fixed - RNG process is paused whilst the file is created*/
+            for (i = 0; i < proc.Threads.Count; i++) {
+                ResumeThread(hThreads[i]);
+            }
         }
 
         
