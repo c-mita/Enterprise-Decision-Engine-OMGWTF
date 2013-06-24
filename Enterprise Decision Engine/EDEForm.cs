@@ -16,6 +16,15 @@ namespace Enterprise_Decision_Engine
         public EDEForm()
         {
             InitializeComponent();
+        }
+
+        private void EDEForm_Load(object sender, EventArgs e)
+        {
+            lblRNG.Text = "";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
             Outcomes[0] = new Option(2);
             Outcomes[1] = new Option(3);
             lblRNG.Text = EDE.RNG().ToString();
