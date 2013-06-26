@@ -27,7 +27,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblRNG = new System.Windows.Forms.Label();
+            this.lblCentre = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -35,16 +35,23 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.btnDecide = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.lblLeft = new System.Windows.Forms.Label();
+            this.lblRight = new System.Windows.Forms.Label();
+            this.rbNumber = new System.Windows.Forms.RadioButton();
+            this.rbTrueFalse = new System.Windows.Forms.RadioButton();
+            this.rbCoin = new System.Windows.Forms.RadioButton();
+            this.rbHands = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
-            // lblRNG
+            // lblCentre
             // 
-            this.lblRNG.AutoSize = true;
-            this.lblRNG.Location = new System.Drawing.Point(149, 217);
-            this.lblRNG.Name = "lblRNG";
-            this.lblRNG.Size = new System.Drawing.Size(35, 13);
-            this.lblRNG.TabIndex = 0;
-            this.lblRNG.Text = "NULL";
+            this.lblCentre.AutoSize = true;
+            this.lblCentre.Location = new System.Drawing.Point(198, 198);
+            this.lblCentre.Name = "lblCentre";
+            this.lblCentre.Size = new System.Drawing.Size(38, 13);
+            this.lblCentre.TabIndex = 0;
+            this.lblCentre.Text = "Centre";
             // 
             // label1
             // 
@@ -118,13 +125,95 @@
             this.btnDecide.TabIndex = 7;
             this.btnDecide.Text = "Decide";
             this.btnDecide.UseVisualStyleBackColor = true;
-            this.btnDecide.Click += new System.EventHandler(this.button1_Click);
+            this.btnDecide.Click += new System.EventHandler(this.btnDecide_Click);
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(171, 378);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(91, 23);
+            this.btnReset.TabIndex = 8;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // lblLeft
+            // 
+            this.lblLeft.AutoSize = true;
+            this.lblLeft.Location = new System.Drawing.Point(47, 198);
+            this.lblLeft.Name = "lblLeft";
+            this.lblLeft.Size = new System.Drawing.Size(25, 13);
+            this.lblLeft.TabIndex = 9;
+            this.lblLeft.Text = "Left";
+            // 
+            // lblRight
+            // 
+            this.lblRight.AutoSize = true;
+            this.lblRight.Location = new System.Drawing.Point(341, 198);
+            this.lblRight.Name = "lblRight";
+            this.lblRight.Size = new System.Drawing.Size(32, 13);
+            this.lblRight.TabIndex = 10;
+            this.lblRight.Text = "Right";
+            // 
+            // rbNumber
+            // 
+            this.rbNumber.AutoSize = true;
+            this.rbNumber.Location = new System.Drawing.Point(301, 26);
+            this.rbNumber.Name = "rbNumber";
+            this.rbNumber.Size = new System.Drawing.Size(72, 17);
+            this.rbNumber.TabIndex = 11;
+            this.rbNumber.TabStop = true;
+            this.rbNumber.Text = "Numerical";
+            this.rbNumber.UseVisualStyleBackColor = true;
+            //this.rbNumber.CheckedChanged += new System.EventHandler(this.rbNumber_CheckedChanged);
+            // 
+            // rbTrueFalse
+            // 
+            this.rbTrueFalse.AutoSize = true;
+            this.rbTrueFalse.Location = new System.Drawing.Point(301, 49);
+            this.rbTrueFalse.Name = "rbTrueFalse";
+            this.rbTrueFalse.Size = new System.Drawing.Size(77, 17);
+            this.rbTrueFalse.TabIndex = 12;
+            this.rbTrueFalse.TabStop = true;
+            this.rbTrueFalse.Text = "True/False";
+            this.rbTrueFalse.UseVisualStyleBackColor = true;
+            // 
+            // rbCoin
+            // 
+            this.rbCoin.AutoSize = true;
+            this.rbCoin.Location = new System.Drawing.Point(301, 72);
+            this.rbCoin.Name = "rbCoin";
+            this.rbCoin.Size = new System.Drawing.Size(46, 17);
+            this.rbCoin.TabIndex = 13;
+            this.rbCoin.TabStop = true;
+            this.rbCoin.Text = "Coin";
+            this.rbCoin.UseVisualStyleBackColor = true;
+            //this.rbCoin.CheckedChanged += new System.EventHandler(this.rbCoin_CheckedChanged);
+            // 
+            // rbHands
+            // 
+            this.rbHands.AutoSize = true;
+            this.rbHands.Location = new System.Drawing.Point(301, 95);
+            this.rbHands.Name = "rbHands";
+            this.rbHands.Size = new System.Drawing.Size(73, 17);
+            this.rbHands.TabIndex = 14;
+            this.rbHands.TabStop = true;
+            this.rbHands.Text = "Left/Right";
+            this.rbHands.UseVisualStyleBackColor = true;
+            //this.rbHands.CheckedChanged += new System.EventHandler(this.rbHands_CheckedChanged);
             // 
             // EDEForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(433, 413);
+            this.Controls.Add(this.rbHands);
+            this.Controls.Add(this.rbCoin);
+            this.Controls.Add(this.rbTrueFalse);
+            this.Controls.Add(this.rbNumber);
+            this.Controls.Add(this.lblRight);
+            this.Controls.Add(this.lblLeft);
+            this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnDecide);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -132,7 +221,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.lblRNG);
+            this.Controls.Add(this.lblCentre);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "EDEForm";
@@ -145,7 +234,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblRNG;
+        private System.Windows.Forms.Label lblCentre;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -153,6 +242,13 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnDecide;
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.Label lblLeft;
+        private System.Windows.Forms.Label lblRight;
+        private System.Windows.Forms.RadioButton rbNumber;
+        private System.Windows.Forms.RadioButton rbTrueFalse;
+        private System.Windows.Forms.RadioButton rbCoin;
+        private System.Windows.Forms.RadioButton rbHands;
     }
 }
 

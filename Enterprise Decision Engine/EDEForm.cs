@@ -20,15 +20,80 @@ namespace Enterprise_Decision_Engine
 
         private void EDEForm_Load(object sender, EventArgs e)
         {
-            lblRNG.Text = "";
+            HideAll();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnDecide_Click(object sender, EventArgs e)
         {
-            Outcomes[0] = new Option(2);
-            Outcomes[1] = new Option(3);
-            lblRNG.Text = EDE.RNG().ToString();
-            Option.ChangeFlags(9, Outcomes);
+            int iFlag = 0;
+            //checks to see which radiobutton is ticked - Tom
+            iFlag = rbNumber.Checked ? 2 : rbTrueFalse.Checked ? 4 : rbCoin.Checked ? 8 : rbHands.Checked ? 16 : 2;
+            int iRNG = EDE.RNG() % 2;
+            Outcomes[iRNG++] = new Option(iFlag^1);
+            Outcomes[iRNG % 2] = new Option(iFlag);
+            DisplayResult();
         }
+
+        private void DisplayResult()
+        {
+            //loop through Outcome object to determine active one - Mark
+            Option outcome = null;
+            for (int i=0; i <= 1; i++) {
+                if (Outcomes[i].Sign) {
+                    outcome = Outcomes[i];
+                }
+            }
+            //determine symbol type and display result - Mark
+            HideAll();
+            switch (outcome.Symbol) {
+                case "0":
+                case "1":
+                    lblCentre.Visible = true;
+                    if (outcome.Sign) {
+                        lblCentre.Text = "1";
+                    } else {
+                        lblCentre.Text = "0";
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+        private void HideAll()
+        {
+            lblCentre.Visible = false;
+            lblLeft.Visible = false;
+            lblRight.Visible = false;
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            HideAll();
+        }
+
+        #region "RadioButton selections"
+        
+        //private void rbNumber_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    Option.ChangeFlags(3, Outcomes);
+        //}
+
+        //private void rbTrueFalse_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    Option.ChangeFlags(5,Outcomes);
+        //}
+
+        //private void rbCoin_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    Option.ChangeFlags(8, Outcomes);
+        //}
+
+        //private void rbHands_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    Option.ChangeFlags(16, Outcomes);
+        //}
+        #endregion
     }
 }

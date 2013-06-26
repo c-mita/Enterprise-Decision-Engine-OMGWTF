@@ -140,7 +140,10 @@ namespace Enterprise_Decision_Engine
                 }
             }
         }
-
+        /// <summary>
+        /// Flags: 2/3 for 1/0, 4/5 for True/False, 8/9 for Heads/Tails, 16/17 for Left/Right.
+        /// </summary>
+        /// <param name="flags"></param>
         public static void ChangeFlags(int flags, Option[] options)
         {
             // - how does this work? - Mark
