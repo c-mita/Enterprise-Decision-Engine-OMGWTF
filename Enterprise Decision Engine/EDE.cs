@@ -121,7 +121,7 @@ namespace Enterprise_Decision_Engine
         {
             // - this works! don't touch it! - Tom
             p_sign = ((flags & 1) == 1);
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 4; i++) {
                 if (((2 << i) & flags) != 0) {
                     switch (i) {
                         case 0:

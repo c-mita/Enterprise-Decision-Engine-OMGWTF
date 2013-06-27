@@ -20,6 +20,7 @@ namespace Enterprise_Decision_Engine
 
         private void EDEForm_Load(object sender, EventArgs e)
         {
+            rbNumber.Checked = true;
             HideAll();
         }
 
@@ -38,24 +39,55 @@ namespace Enterprise_Decision_Engine
         {
             //loop through Outcome object to determine active one - Mark
             Option outcome = null;
-            for (int i=0; i <= 1; i++) {
+            int i = 0;
+            for (i=0; i <= 1; i++) {
                 if (Outcomes[i].Sign) {
                     outcome = Outcomes[i];
+                    break;
                 }
             }
             //determine symbol type and display result - Mark
             HideAll();
             switch (outcome.Symbol) {
+
+                case "Heads":
+                case "Tails":
+                    if (i == 0) {
+                        imgHeads.Visible = true;
+                    } else {
+                        imgTails.Visible = true;
+                    }
+                    break;
+                case "Left":
+                case "Right":
+                    lblLeft.Visible = true;
+                    lblRight.Visible = true;
+                    if (i==0) {
+                        lblLeft.BackColor = Color.Green;
+                        lblRight.BackColor = Color.Red;
+                    } else {
+                        lblRight.BackColor = Color.Green;
+                        lblLeft.BackColor = Color.Red;
+                    }
+                    break;
+                case "True":
+                case "False":
+                    lblCentre.Visible = true;
+                    if (i==0) {
+                        lblCentre.Text = "True";
+                    } else {
+                        lblCentre.Text = "False";
+                    }
+                    break;
                 case "0":
                 case "1":
+                default:
                     lblCentre.Visible = true;
-                    if (outcome.Sign) {
+                    if (i==0) {
                         lblCentre.Text = "1";
                     } else {
                         lblCentre.Text = "0";
                     }
-                    break;
-                default:
                     break;
             }
 
@@ -66,6 +98,8 @@ namespace Enterprise_Decision_Engine
             lblCentre.Visible = false;
             lblLeft.Visible = false;
             lblRight.Visible = false;
+            imgHeads.Visible = false;
+            imgTails.Visible = false;
         }
 
         private void btnReset_Click(object sender, EventArgs e)

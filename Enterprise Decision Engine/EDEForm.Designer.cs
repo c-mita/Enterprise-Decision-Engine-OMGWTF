@@ -27,6 +27,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EDEForm));
             this.lblCentre = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -42,16 +43,24 @@
             this.rbTrueFalse = new System.Windows.Forms.RadioButton();
             this.rbCoin = new System.Windows.Forms.RadioButton();
             this.rbHands = new System.Windows.Forms.RadioButton();
+            this.imgHeads = new System.Windows.Forms.PictureBox();
+            this.imgTails = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.imgHeads)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgTails)).BeginInit();
             this.SuspendLayout();
             // 
             // lblCentre
             // 
             this.lblCentre.AutoSize = true;
-            this.lblCentre.Location = new System.Drawing.Point(198, 198);
+            this.lblCentre.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCentre.Location = new System.Drawing.Point(166, 198);
+            this.lblCentre.MaximumSize = new System.Drawing.Size(100, 40);
+            this.lblCentre.MinimumSize = new System.Drawing.Size(100, 40);
             this.lblCentre.Name = "lblCentre";
-            this.lblCentre.Size = new System.Drawing.Size(38, 13);
+            this.lblCentre.Size = new System.Drawing.Size(100, 40);
             this.lblCentre.TabIndex = 0;
             this.lblCentre.Text = "Centre";
+            this.lblCentre.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
@@ -140,20 +149,28 @@
             // lblLeft
             // 
             this.lblLeft.AutoSize = true;
-            this.lblLeft.Location = new System.Drawing.Point(47, 198);
+            this.lblLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLeft.Location = new System.Drawing.Point(24, 198);
+            this.lblLeft.MaximumSize = new System.Drawing.Size(80, 40);
+            this.lblLeft.MinimumSize = new System.Drawing.Size(80, 40);
             this.lblLeft.Name = "lblLeft";
-            this.lblLeft.Size = new System.Drawing.Size(25, 13);
+            this.lblLeft.Size = new System.Drawing.Size(80, 40);
             this.lblLeft.TabIndex = 9;
             this.lblLeft.Text = "Left";
+            this.lblLeft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblRight
             // 
             this.lblRight.AutoSize = true;
-            this.lblRight.Location = new System.Drawing.Point(341, 198);
+            this.lblRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRight.Location = new System.Drawing.Point(332, 198);
+            this.lblRight.MaximumSize = new System.Drawing.Size(80, 40);
+            this.lblRight.MinimumSize = new System.Drawing.Size(80, 40);
             this.lblRight.Name = "lblRight";
-            this.lblRight.Size = new System.Drawing.Size(32, 13);
+            this.lblRight.Size = new System.Drawing.Size(80, 40);
             this.lblRight.TabIndex = 10;
             this.lblRight.Text = "Right";
+            this.lblRight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // rbNumber
             // 
@@ -165,7 +182,6 @@
             this.rbNumber.TabStop = true;
             this.rbNumber.Text = "Numerical";
             this.rbNumber.UseVisualStyleBackColor = true;
-            //this.rbNumber.CheckedChanged += new System.EventHandler(this.rbNumber_CheckedChanged);
             // 
             // rbTrueFalse
             // 
@@ -188,7 +204,6 @@
             this.rbCoin.TabStop = true;
             this.rbCoin.Text = "Coin";
             this.rbCoin.UseVisualStyleBackColor = true;
-            //this.rbCoin.CheckedChanged += new System.EventHandler(this.rbCoin_CheckedChanged);
             // 
             // rbHands
             // 
@@ -200,7 +215,24 @@
             this.rbHands.TabStop = true;
             this.rbHands.Text = "Left/Right";
             this.rbHands.UseVisualStyleBackColor = true;
-            //this.rbHands.CheckedChanged += new System.EventHandler(this.rbHands_CheckedChanged);
+            // 
+            // imgHeads
+            // 
+            this.imgHeads.Image = ((System.Drawing.Image)(resources.GetObject("imgHeads.Image")));
+            this.imgHeads.Location = new System.Drawing.Point(166, 155);
+            this.imgHeads.Name = "imgHeads";
+            this.imgHeads.Size = new System.Drawing.Size(100, 100);
+            this.imgHeads.TabIndex = 15;
+            this.imgHeads.TabStop = false;
+            // 
+            // imgTails
+            // 
+            this.imgTails.Image = ((System.Drawing.Image)(resources.GetObject("imgTails.Image")));
+            this.imgTails.Location = new System.Drawing.Point(166, 155);
+            this.imgTails.Name = "imgTails";
+            this.imgTails.Size = new System.Drawing.Size(100, 100);
+            this.imgTails.TabIndex = 16;
+            this.imgTails.TabStop = false;
             // 
             // EDEForm
             // 
@@ -222,11 +254,16 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblCentre);
+            this.Controls.Add(this.imgTails);
+            this.Controls.Add(this.imgHeads);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "EDEForm";
             this.Text = "Enterprise Decision Engine";
             this.Load += new System.EventHandler(this.EDEForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.imgHeads)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgTails)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -249,6 +286,8 @@
         private System.Windows.Forms.RadioButton rbTrueFalse;
         private System.Windows.Forms.RadioButton rbCoin;
         private System.Windows.Forms.RadioButton rbHands;
+        private System.Windows.Forms.PictureBox imgHeads;
+        private System.Windows.Forms.PictureBox imgTails;
     }
 }
 
